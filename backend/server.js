@@ -13,6 +13,19 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
+app.use((req, res, next) => {
+  const timestamp = new Date().toISOString();
+  console.log(`[${timestamp}] ${req.method} ${req.url} - ${req.ip}`);
+
+  const originalSend = res.send;
+  res.send = function(data) {
+    console.log(`[${timestamp}] ${req.method} ${req.url} - ${res.statusCode} ${res.statusMessage}`);
+    return originalSend.call(this, data);
+  };
+
+  next();
+});
+
 app.get('/health', (_req, res) => {
   const status = dbStatus();
   res.json({ status: 'ok', db: status });
@@ -23,7 +36,7 @@ app.use('/api/posts', postsRoutes);
 app.use('/api/comments', commentsRoutes);
 app.use('/api/chatbot', chatbotRoutes);
 
-app.use((req, res) => res.status(404).json({ message: 'Not Found' }));
+app.use((_req, res) => res.status(404).json({ message: 'Not Found' }));
 
 const PORT = process.env.PORT || 5000;
 connectDB(process.env.MONGO_URI)
