@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const api = axios.create({
-  baseURL: 'https://illegal-claudina-saransathish-2ce282b0.koyeb.app',
+  baseURL: 'http://localhost:5000',
   headers: { 'Content-Type': 'application/json' },
 });
 
