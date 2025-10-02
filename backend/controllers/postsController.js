@@ -1,10 +1,12 @@
 import { Post } from '../models/Post.js';
 import { User } from '../models/User.js';
+import { awardPoints, updateUserStats, POINTS } from '../utils/gamification.js';
+import { createNotification } from './notificationController.js';
 
 // Create a new post (Mentor only)
 export async function createPost(req, res) {
   try {
-    const { title, content, fileUrl, fileName } = req.body || {};
+    const { title, content, fileUrl, fileName, category, tags } = req.body || {};
     const { id: userId, role } = req.user || {};
 
     // Check if user is a mentor
@@ -23,17 +25,23 @@ export async function createPost(req, res) {
       content: content.trim(),
       fileUrl: fileUrl?.trim() || null,
       fileName: fileName?.trim() || null,
+      category: category || 'General',
+      tags: tags || [],
       createdBy: userId
     });
 
+    // Award points and update stats for creating a post
+    await awardPoints(userId, POINTS.POST_CREATED, 'Created a post');
+    await updateUserStats(userId, 'postsCreated');
+
     // Populate mentor info and return
     const populatedPost = await Post.findById(post._id)
-      .populate('createdBy', 'name email role')
+      .populate('createdBy', 'name email role avatar')
       .lean();
 
-    return res.status(201).json({ 
-      message: 'Post created successfully', 
-      post: populatedPost 
+    return res.status(201).json({
+      message: 'Post created successfully',
+      post: populatedPost
     });
   } catch (err) {
     console.error('Create post error:', err);
@@ -44,21 +52,31 @@ export async function createPost(req, res) {
 // Get all posts with mentor info
 export async function getAllPosts(req, res) {
   try {
-    const { page = 1, limit = 10, mentorId } = req.query;
-    
+    const { page = 1, limit = 10, mentorId, category, search } = req.query;
+
     // Build query
     const query = { isActive: true };
     if (mentorId) {
       query.createdBy = mentorId;
     }
+    if (category && category !== 'All') {
+      query.category = category;
+    }
+    if (search) {
+      query.$or = [
+        { title: { $regex: search, $options: 'i' } },
+        { content: { $regex: search, $options: 'i' } },
+        { tags: { $in: [new RegExp(search, 'i')] } }
+      ];
+    }
 
     // Calculate pagination
     const skip = (parseInt(page) - 1) * parseInt(limit);
-    
+
     // Get posts with mentor info
     const posts = await Post.find(query)
-      .populate('createdBy', 'name email role')
-      .sort({ createdAt: -1 })
+      .populate('createdBy', 'name email role avatar')
+      .sort({ isPinned: -1, createdAt: -1 })
       .skip(skip)
       .limit(parseInt(limit))
       .lean();
@@ -218,6 +236,80 @@ export async function deletePost(req, res) {
     return res.status(200).json({ message: 'Post deleted successfully' });
   } catch (err) {
     console.error('Delete post error:', err);
+    return res.status(500).json({ message: 'Server error', error: err.message });
+  }
+}
+
+// Like a post
+export async function likePost(req, res) {
+  try {
+    const { id } = req.params;
+    const { id: userId } = req.user || {};
+
+    const post = await Post.findOne({ _id: id, isActive: true });
+    if (!post) {
+      return res.status(404).json({ message: 'Post not found' });
+    }
+
+    // Check if already liked
+    if (post.likes.includes(userId)) {
+      return res.status(400).json({ message: 'Post already liked' });
+    }
+
+    // Add like
+    post.likes.push(userId);
+    post.likesCount = post.likes.length;
+    await post.save();
+
+    // Award points to post creator
+    if (post.createdBy.toString() !== userId) {
+      await awardPoints(post.createdBy, POINTS.POST_LIKED, 'Post liked');
+
+      // Create notification
+      await createNotification(
+        post.createdBy,
+        'comment',
+        '👍 New Like',
+        `${req.user.name} liked your post "${post.title}"`,
+        {
+          icon: '👍',
+          relatedPost: post._id,
+          relatedUser: userId
+        }
+      );
+    }
+
+    return res.status(200).json({ message: 'Post liked successfully', likesCount: post.likesCount });
+  } catch (err) {
+    console.error('Like post error:', err);
+    return res.status(500).json({ message: 'Server error', error: err.message });
+  }
+}
+
+// Unlike a post
+export async function unlikePost(req, res) {
+  try {
+    const { id } = req.params;
+    const { id: userId } = req.user || {};
+
+    const post = await Post.findOne({ _id: id, isActive: true });
+    if (!post) {
+      return res.status(404).json({ message: 'Post not found' });
+    }
+
+    // Check if not liked
+    if (!post.likes.includes(userId)) {
+      return res.status(400).json({ message: 'Post not liked yet' });
+    }
+
+    // Remove like
+    post.likes = post.likes.filter(id => id.toString() !== userId);
+    post.likesCount = post.likes.length;
+    await post.save();
+
+    return res.status(200).json({ message: 'Post unliked successfully', likesCount: post.likesCount });
+  } catch (err) {
+    console.error('Unlike post error:', err);
     return res.status(500).json({ message: 'Server error', error: err.message });
   }
 }

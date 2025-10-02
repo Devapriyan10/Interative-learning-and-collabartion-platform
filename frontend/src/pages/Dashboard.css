@@ -1,4 +1,4 @@
-/* Dashboard Styles - Google Classroom Inspired */
+/* Dashboard Styles - Modern Enhanced Design */
 
 /* Loading State */
 .dashboard-loading {
@@ -7,17 +7,28 @@
   align-items: center;
   justify-content: center;
   min-height: 100vh;
-  background: #f9f9f9;
-  gap: 16px;
+  background: linear-gradient(135deg, rgba(102, 126, 234, 0.05) 0%, rgba(118, 75, 162, 0.05) 100%);
+  gap: 20px;
+  animation: fadeIn 0.5s ease-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
 
 .loading-spinner {
-  width: 40px;
-  height: 40px;
-  border: 4px solid #e3f2fd;
-  border-top: 4px solid #1976d2;
+  width: 50px;
+  height: 50px;
+  border: 5px solid rgba(102, 126, 234, 0.1);
+  border-top: 5px solid #667eea;
   border-radius: 50%;
-  animation: spin 1s linear infinite;
+  animation: spin 1s cubic-bezier(0.68, -0.55, 0.27, 1.55) infinite;
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.2);
 }
 
 @keyframes spin {
@@ -25,10 +36,19 @@
   100% { transform: rotate(360deg); }
 }
 
+.dashboard-loading p {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  font-weight: 600;
+  font-size: 16px;
+}
+
 /* Main Dashboard Layout */
 .dashboard {
   min-height: 100vh;
-  background: #f9f9f9;
+  background: linear-gradient(135deg, rgba(102, 126, 234, 0.03) 0%, rgba(118, 75, 162, 0.03) 100%);
   display: flex;
   flex-direction: column;
 }
@@ -36,11 +56,13 @@
 /* Navigation Bar */
 .dashboard-navbar {
   background: #ffffff;
-  border-bottom: 1px solid #e0e0e0;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  border-bottom: none;
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.08);
   position: sticky;
   top: 0;
   z-index: 100;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
 }
 
 .navbar-content {
@@ -63,12 +85,30 @@
   align-items: center;
   gap: 8px;
   font-size: 20px;
-  font-weight: 600;
-  color: #1976d2;
+  font-weight: 700;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  transition: transform 0.3s ease;
+}
+
+.logo:hover {
+  transform: scale(1.05);
 }
 
 .logo-icon {
-  font-size: 24px;
+  font-size: 28px;
+  animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
+  }
 }
 
 .navbar-right {
@@ -84,20 +124,28 @@
 }
 
 .user-avatar {
-  width: 36px;
-  height: 36px;
+  width: 40px;
+  height: 40px;
   border-radius: 50%;
-  background: #1976d2;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   color: white;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-weight: 500;
-  font-size: 14px;
+  font-weight: 600;
+  font-size: 16px;
+  box-shadow: 0 2px 8px rgba(102, 126, 234, 0.3);
+  transition: all 0.3s ease;
+}
+
+.user-avatar:hover {
+  transform: scale(1.1);
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
 }
 
 .student-avatar {
-  background: #34a853;
+  background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+  box-shadow: 0 2px 8px rgba(67, 233, 123, 0.3);
 }
 
 .user-name {
@@ -115,19 +163,21 @@
 }
 
 .logout-btn {
-  background: #ea4335;
+  background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
   color: white;
   border: none;
-  padding: 8px 16px;
-  border-radius: 4px;
+  padding: 10px 20px;
+  border-radius: 24px;
   font-size: 14px;
-  font-weight: 500;
+  font-weight: 600;
   cursor: pointer;
-  transition: background-color 0.2s ease;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 8px rgba(250, 112, 154, 0.2);
 }
 
 .logout-btn:hover {
-  background: #d33b2c;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(250, 112, 154, 0.3);
 }
 
 /* Main Content */
@@ -165,46 +215,63 @@
 }
 
 .create-post-prompt {
-  background: #ffffff;
-  border: 1px solid #e0e0e0;
-  border-radius: 8px;
-  padding: 16px;
+  background: linear-gradient(135deg, rgba(102, 126, 234, 0.05) 0%, rgba(118, 75, 162, 0.05) 100%);
+  border: 2px solid rgba(102, 126, 234, 0.1);
+  border-radius: 16px;
+  padding: 20px;
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 16px;
   cursor: pointer;
-  transition: box-shadow 0.2s ease;
+  transition: all 0.3s ease;
 }
 
 .create-post-prompt:hover {
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  border-color: rgba(102, 126, 234, 0.3);
+  background: linear-gradient(135deg, rgba(102, 126, 234, 0.08) 0%, rgba(118, 75, 162, 0.08) 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 16px rgba(102, 126, 234, 0.15);
 }
 
 .prompt-avatar {
-  width: 40px;
-  height: 40px;
+  width: 44px;
+  height: 44px;
   border-radius: 50%;
-  background: #1976d2;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   color: white;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-weight: 500;
-  font-size: 16px;
+  font-weight: 600;
+  font-size: 18px;
+  box-shadow: 0 2px 8px rgba(102, 126, 234, 0.3);
 }
 
 .prompt-text {
   flex: 1;
-  color: #5f6368;
+  color: #667eea;
   font-size: 16px;
+  font-weight: 500;
 }
 
 .create-post-form {
   background: #ffffff;
-  border: 1px solid #e0e0e0;
-  border-radius: 8px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  border: 2px solid rgba(102, 126, 234, 0.15);
+  border-radius: 16px;
+  box-shadow: 0 8px 24px rgba(102, 126, 234, 0.12);
   overflow: hidden;
+  animation: slideIn 0.4s ease-out;
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .form-header {
@@ -251,16 +318,18 @@
 
 .form-input {
   width: 100%;
-  padding: 12px 16px;
-  border: 1px solid #dadce0;
-  border-radius: 4px;
+  padding: 14px 18px;
+  border: 2px solid rgba(102, 126, 234, 0.2);
+  border-radius: 12px;
   font-size: 14px;
   outline: none;
-  transition: border-color 0.2s ease;
+  transition: all 0.3s ease;
+  background: white;
 }
 
 .form-input:focus {
-  border-color: #1976d2;
+  border-color: #667eea;
+  box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.1);
 }
 
 .title-input {
@@ -270,19 +339,21 @@
 
 .form-textarea {
   width: 100%;
-  padding: 12px 16px;
-  border: 1px solid #dadce0;
-  border-radius: 4px;
+  padding: 14px 18px;
+  border: 2px solid rgba(102, 126, 234, 0.2);
+  border-radius: 12px;
   font-size: 14px;
   outline: none;
   resize: vertical;
-  min-height: 100px;
+  min-height: 120px;
   font-family: inherit;
-  transition: border-color 0.2s ease;
+  transition: all 0.3s ease;
+  background: white;
 }
 
 .form-textarea:focus {
-  border-color: #1976d2;
+  border-color: #667eea;
+  box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.1);
 }
 
 .form-actions {
@@ -293,35 +364,44 @@
 }
 
 .cancel-btn {
-  background: none;
-  border: 1px solid #dadce0;
-  color: #5f6368;
-  padding: 8px 16px;
-  border-radius: 4px;
+  background: white;
+  border: 2px solid rgba(102, 126, 234, 0.2);
+  color: #667eea;
+  padding: 10px 20px;
+  border-radius: 24px;
   font-size: 14px;
-  font-weight: 500;
+  font-weight: 600;
   cursor: pointer;
-  transition: background-color 0.2s ease;
+  transition: all 0.3s ease;
 }
 
 .cancel-btn:hover {
-  background: #f8f9fa;
+  background: rgba(102, 126, 234, 0.05);
+  border-color: rgba(102, 126, 234, 0.4);
 }
 
 .post-btn {
-  background: #1976d2;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   color: white;
   border: none;
-  padding: 8px 24px;
-  border-radius: 4px;
+  padding: 10px 28px;
+  border-radius: 24px;
   font-size: 14px;
-  font-weight: 500;
+  font-weight: 600;
   cursor: pointer;
-  transition: background-color 0.2s ease;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 8px rgba(102, 126, 234, 0.2);
 }
 
 .post-btn:hover {
-  background: #1565c0;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(102, 126, 234, 0.3);
+}
+
+.post-btn:disabled {
+  opacity: 0.6;
+  transform: none;
+  cursor: not-allowed;
 }
 
 /* Posts Section */
@@ -377,28 +457,42 @@
 /* Empty State */
 .empty-state {
   text-align: center;
-  padding: 48px 24px;
-  background: #ffffff;
-  border: 1px solid #e0e0e0;
-  border-radius: 8px;
+  padding: 64px 32px;
+  background: linear-gradient(135deg, rgba(102, 126, 234, 0.03) 0%, rgba(118, 75, 162, 0.03) 100%);
+  border: 2px dashed rgba(102, 126, 234, 0.2);
+  border-radius: 16px;
+  animation: fadeIn 0.6s ease-out;
 }
 
 .empty-icon {
-  font-size: 48px;
-  margin-bottom: 16px;
+  font-size: 64px;
+  margin-bottom: 20px;
+  animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
 }
 
 .empty-state h3 {
-  margin: 0 0 8px 0;
-  font-size: 18px;
-  font-weight: 500;
-  color: #202124;
+  margin: 0 0 12px 0;
+  font-size: 20px;
+  font-weight: 600;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
 
 .empty-state p {
   margin: 0;
-  color: #5f6368;
-  font-size: 14px;
+  color: #666;
+  font-size: 15px;
 }
 
 /* Quick Actions (Student Dashboard) */
@@ -410,51 +504,74 @@
 }
 
 .action-card {
-  background: #ffffff;
-  border: 1px solid #e0e0e0;
-  border-radius: 8px;
-  padding: 24px;
+  background: white;
+  border: 2px solid rgba(102, 126, 234, 0.1);
+  border-radius: 16px;
+  padding: 28px;
   text-align: center;
-  transition: box-shadow 0.2s ease, transform 0.2s ease;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+.action-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  transform: scaleX(0);
+  transition: transform 0.3s ease;
+}
+
+.action-card:hover::before {
+  transform: scaleX(1);
 }
 
 .action-card:hover {
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  transform: translateY(-2px);
+  border-color: rgba(102, 126, 234, 0.3);
+  box-shadow: 0 12px 24px rgba(102, 126, 234, 0.15);
+  transform: translateY(-8px);
 }
 
 .action-icon {
-  font-size: 32px;
-  margin-bottom: 12px;
+  font-size: 40px;
+  margin-bottom: 16px;
+  animation: pulse 2s ease-in-out infinite;
 }
 
 .action-card h3 {
-  margin: 0 0 8px 0;
-  font-size: 16px;
-  font-weight: 500;
-  color: #202124;
+  margin: 0 0 12px 0;
+  font-size: 18px;
+  font-weight: 600;
+  color: #1a1a2e;
 }
 
 .action-card p {
-  margin: 0 0 16px 0;
-  color: #5f6368;
+  margin: 0 0 20px 0;
+  color: #666;
   font-size: 14px;
+  line-height: 1.6;
 }
 
 .action-btn {
-  background: #1976d2;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   color: white;
   border: none;
-  padding: 8px 16px;
-  border-radius: 4px;
+  padding: 10px 24px;
+  border-radius: 24px;
   font-size: 14px;
-  font-weight: 500;
+  font-weight: 600;
   cursor: pointer;
-  transition: background-color 0.2s ease;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 8px rgba(102, 126, 234, 0.2);
 }
 
 .action-btn:hover {
-  background: #1565c0;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(102, 126, 234, 0.3);
 }
 
 /* Dashboard Tabs */
@@ -882,3 +999,94 @@
     width: 100%;
   }
 }
+
+
+/* New Gamification Styles */
+
+/* User Gamification in Navbar */
+.user-gamification {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.user-level-badge {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  padding: 6px 12px;
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-weight: 600;
+  font-size: 14px;
+  box-shadow: 0 2px 8px rgba(102, 126, 234, 0.3);
+}
+
+.level-icon {
+  font-size: 16px;
+}
+
+.user-points {
+  background: rgba(102, 126, 234, 0.1);
+  color: #667eea;
+  padding: 6px 12px;
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.points-value {
+  font-size: 16px;
+}
+
+.points-label {
+  font-size: 11px;
+  opacity: 0.8;
+}
+
+/* Dashboard Tabs */
+.dashboard-tabs {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 32px;
+  background: #f8f9fa;
+  padding: 6px;
+  border-radius: 12px;
+}
+
+.tab-btn {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 12px 24px;
+  border: none;
+  background: transparent;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 15px;
+  font-weight: 500;
+  color: #666;
+  transition: all 0.3s ease;
+}
+
+.tab-btn:hover {
+  background: rgba(102, 126, 234, 0.1);
+  color: #667eea;
+}
+
+.tab-btn.active {
+  background: white;
+  color: #667eea;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.tab-icon {
+  font-size: 18px;
+}
+
