@@ -1,0 +1,424 @@
+/* PostCard Component Styles - Google Classroom Inspired */
+.post-card {
+  background: #ffffff;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+  margin-bottom: 16px;
+  overflow: hidden;
+  transition: box-shadow 0.2s ease;
+}
+
+.post-card:hover {
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+.post-header {
+  padding: 16px 16px 0 16px;
+}
+
+.post-author {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.author-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: #1976d2;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 500;
+  font-size: 16px;
+}
+
+.author-info {
+  flex: 1;
+}
+
+.author-name {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 500;
+  color: #202124;
+}
+
+.post-date {
+  font-size: 12px;
+  color: #5f6368;
+}
+
+.post-content {
+  padding: 16px;
+}
+
+.post-title {
+  margin: 0 0 8px 0;
+  font-size: 18px;
+  font-weight: 400;
+  color: #202124;
+  line-height: 1.4;
+}
+
+.post-description {
+  margin: 0 0 16px 0;
+  font-size: 14px;
+  color: #3c4043;
+  line-height: 1.5;
+  white-space: pre-wrap;
+}
+
+.post-attachment {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px;
+  background: #f8f9fa;
+  border: 1px solid #e8eaed;
+  border-radius: 4px;
+  margin-top: 12px;
+}
+
+.attachment-icon {
+  font-size: 16px;
+}
+
+.attachment-link {
+  color: #1976d2;
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.attachment-link:hover {
+  text-decoration: underline;
+}
+
+.post-actions {
+  padding: 0 16px 16px 16px;
+  border-top: 1px solid #e8eaed;
+  margin-top: 16px;
+  padding-top: 16px;
+}
+
+.comment-btn {
+  background: none;
+  border: none;
+  color: #1976d2;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  padding: 8px 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.comment-btn:hover {
+  background: #f1f3f4;
+  border-radius: 4px;
+  padding: 8px 12px;
+  margin: 0 -12px;
+}
+
+.comment-section {
+  border-top: 1px solid #e8eaed;
+  padding: 16px;
+  background: #fafbfc;
+}
+
+.comments-list {
+  margin-bottom: 16px;
+}
+
+.comment {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.comment:last-child {
+  margin-bottom: 0;
+}
+
+.comment-avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: #34a853;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 500;
+  font-size: 14px;
+  flex-shrink: 0;
+}
+
+.comment-content {
+  flex: 1;
+  background: white;
+  border-radius: 8px;
+  padding: 12px;
+  border: 1px solid #e8eaed;
+}
+
+.comment-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 4px;
+}
+
+.comment-author {
+  font-size: 13px;
+  font-weight: 500;
+  color: #202124;
+}
+
+.comment-time {
+  font-size: 12px;
+  color: #5f6368;
+}
+
+.comment-text {
+  margin: 0;
+  font-size: 14px;
+  color: #3c4043;
+  line-height: 1.4;
+}
+
+.comment-form {
+  margin-top: 16px;
+}
+
+.comment-input-container {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.comment-input {
+  flex: 1;
+  padding: 12px 16px;
+  border: 1px solid #dadce0;
+  border-radius: 24px;
+  font-size: 14px;
+  outline: none;
+  transition: border-color 0.2s ease;
+}
+
+.comment-input:focus {
+  border-color: #1976d2;
+}
+
+.comment-submit {
+  background: #1976d2;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 16px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.comment-submit:hover {
+  background: #1565c0;
+}
+
+.comment-submit:disabled {
+  background: #dadce0;
+  cursor: not-allowed;
+}
+
+/* Reply Styles */
+.reply-section {
+  margin-top: 12px;
+  padding-left: 16px;
+  border-left: 2px solid #e8eaed;
+}
+
+.reply {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.reply:last-child {
+  margin-bottom: 0;
+}
+
+.reply-avatar {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: #1976d2;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 500;
+  font-size: 12px;
+  flex-shrink: 0;
+}
+
+.reply-content {
+  flex: 1;
+  background: #f8f9fa;
+  border-radius: 6px;
+  padding: 8px 12px;
+}
+
+.reply-header {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 2px;
+}
+
+.reply-author {
+  font-size: 12px;
+  font-weight: 500;
+  color: #202124;
+}
+
+.reply-time {
+  font-size: 11px;
+  color: #5f6368;
+}
+
+.reply-text {
+  margin: 0;
+  font-size: 13px;
+  color: #3c4043;
+  line-height: 1.4;
+}
+
+.reply-form-container {
+  margin-top: 8px;
+}
+
+.reply-btn {
+  background: none;
+  border: none;
+  color: #1976d2;
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  padding: 4px 0;
+}
+
+.reply-btn:hover {
+  text-decoration: underline;
+}
+
+.reply-form {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.reply-input {
+  padding: 8px 12px;
+  border: 1px solid #dadce0;
+  border-radius: 16px;
+  font-size: 13px;
+  outline: none;
+  transition: border-color 0.2s ease;
+}
+
+.reply-input:focus {
+  border-color: #1976d2;
+}
+
+.reply-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+}
+
+.reply-cancel,
+.reply-submit {
+  padding: 4px 12px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.reply-cancel {
+  background: none;
+  border: 1px solid #dadce0;
+  color: #5f6368;
+}
+
+.reply-cancel:hover {
+  background: #f8f9fa;
+}
+
+.reply-submit {
+  background: #1976d2;
+  color: white;
+  border: none;
+}
+
+.reply-submit:hover {
+  background: #1565c0;
+}
+
+.reply-submit:disabled,
+.reply-cancel:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.loading-comments {
+  text-align: center;
+  padding: 20px;
+  color: #5f6368;
+  font-size: 14px;
+}
+
+/* Delete Button Styles */
+.delete-comment-btn,
+.delete-reply-btn {
+  background: none;
+  border: none;
+  color: #ea4335;
+  font-size: 14px;
+  cursor: pointer;
+  padding: 4px;
+  border-radius: 4px;
+  opacity: 0.7;
+  transition: all 0.2s ease;
+  margin-left: auto;
+}
+
+.delete-comment-btn:hover,
+.delete-reply-btn:hover {
+  opacity: 1;
+  background: #fce8e6;
+  transform: scale(1.1);
+}
+
+.comment-header,
+.reply-header {
+  position: relative;
+}
+
+.delete-comment-btn {
+  position: absolute;
+  right: 0;
+  top: 0;
+}
+
+.delete-reply-btn {
+  margin-left: 8px;
+}
