@@ -191,7 +191,7 @@ export default function StudentDashboard() {
                 <div className="action-card">
                   <div className="action-icon">📊</div>
                   <h3>My Stats</h3>
-                  <div className="action-icon">📊</div>
+                  {/* <div className="action-icon">📊</div> */}
                   <p>Track your learning progress and achievements</p>
                   <button className="action-btn" onClick={() => setActiveTab('profile')}>
                     View Stats
