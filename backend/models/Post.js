@@ -2,19 +2,19 @@ import mongoose from 'mongoose';
 
 const postSchema = new mongoose.Schema(
   {
-    title: { 
-      type: String, 
-      required: true, 
+    title: {
+      type: String,
+      required: true,
       trim: true,
       maxlength: 200
     },
-    content: { 
-      type: String, 
+    content: {
+      type: String,
       required: true,
       maxlength: 5000
     },
-    fileUrl: { 
-      type: String, 
+    fileUrl: {
+      type: String,
       trim: true,
       default: null
     },
@@ -23,19 +23,40 @@ const postSchema = new mongoose.Schema(
       trim: true,
       default: null
     },
-    createdBy: { 
-      type: mongoose.Schema.Types.ObjectId, 
-      ref: 'User', 
-      required: true 
+    category: {
+      type: String,
+      default: 'General'
+    },
+    tags: [{ type: String }],
+    createdBy: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'User',
+      required: true
+    },
+    likes: [{
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'User'
+    }],
+    likesCount: {
+      type: Number,
+      default: 0
+    },
+    viewsCount: {
+      type: Number,
+      default: 0
+    },
+    isPinned: {
+      type: Boolean,
+      default: false
     },
     isActive: {
       type: Boolean,
       default: true
     }
   },
-  { 
-    timestamps: true, 
-    collection: 'posts' 
+  {
+    timestamps: true,
+    collection: 'posts'
   }
 );
 
