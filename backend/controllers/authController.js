@@ -33,6 +33,7 @@ export async function signup(req, res) {
 }
 
 export async function login(req, res) {
+  
   try {
     const { email, password, role } = req.body || {};
     if (!email || !password || !role) {
