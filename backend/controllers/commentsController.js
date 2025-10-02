@@ -1,6 +1,8 @@
 import { Comment } from '../models/Comment.js';
 import { Post } from '../models/Post.js';
 import { User } from '../models/User.js';
+import { awardPoints, updateUserStats, POINTS } from '../utils/gamification.js';
+import { createNotification } from './notificationController.js';
 
 // Add a comment to a post (Student only)
 export async function addComment(req, res) {
@@ -20,7 +22,7 @@ export async function addComment(req, res) {
     }
 
     // Check if post exists
-    const post = await Post.findOne({ _id: postId, isActive: true });
+    const post = await Post.findOne({ _id: postId, isActive: true }).populate('createdBy', 'name');
     if (!post) {
       return res.status(404).json({ message: 'Post not found' });
     }
@@ -32,15 +34,34 @@ export async function addComment(req, res) {
       message: message.trim()
     });
 
+    // Award points and update stats for commenting
+    await awardPoints(userId, POINTS.COMMENT_POSTED, 'Posted a comment');
+    await updateUserStats(userId, 'commentsPosted');
+
+    // Create notification for post owner
+    if (post.createdBy._id.toString() !== userId) {
+      await createNotification(
+        post.createdBy._id,
+        'comment',
+        '💬 New Comment',
+        `${req.user.name} commented on your post "${post.title}"`,
+        {
+          icon: '💬',
+          relatedPost: post._id,
+          relatedUser: userId
+        }
+      );
+    }
+
     // Populate user info and return
     const populatedComment = await Comment.findById(comment._id)
-      .populate('userId', 'name email role')
-      .populate('replies.mentorId', 'name email role')
+      .populate('userId', 'name email role avatar')
+      .populate('replies.mentorId', 'name email role avatar')
       .lean();
 
-    return res.status(201).json({ 
-      message: 'Comment added successfully', 
-      comment: populatedComment 
+    return res.status(201).json({
+      message: 'Comment added successfully',
+      comment: populatedComment
     });
   } catch (err) {
     console.error('Add comment error:', err);
@@ -109,7 +130,7 @@ export async function addReply(req, res) {
     }
 
     // Find the comment
-    const comment = await Comment.findOne({ _id: commentId, isActive: true });
+    const comment = await Comment.findOne({ _id: commentId, isActive: true }).populate('userId', 'name _id');
     if (!comment) {
       return res.status(404).json({ message: 'Comment not found' });
     }
@@ -132,13 +153,32 @@ export async function addReply(req, res) {
       { $push: { replies: reply } },
       { new: true, runValidators: true }
     )
-      .populate('userId', 'name email role')
-      .populate('replies.mentorId', 'name email role')
+      .populate('userId', 'name email role avatar')
+      .populate('replies.mentorId', 'name email role avatar')
       .lean();
 
-    return res.status(200).json({ 
-      message: 'Reply added successfully', 
-      comment: updatedComment 
+    // Award points for replying
+    await awardPoints(mentorId, POINTS.REPLY_GIVEN, 'Replied to a comment');
+    await updateUserStats(mentorId, 'questionsAnswered');
+
+    // Create notification for the comment author
+    if (comment.userId._id.toString() !== mentorId) {
+      await createNotification(
+        comment.userId._id,
+        'reply',
+        '✅ New Reply',
+        `${req.user.name} replied to your comment on "${post.title}"`,
+        {
+          icon: '✅',
+          relatedPost: post._id,
+          relatedUser: mentorId
+        }
+      );
+    }
+
+    return res.status(200).json({
+      message: 'Reply added successfully',
+      comment: updatedComment
     });
   } catch (err) {
     console.error('Add reply error:', err);

@@ -1,11 +1,13 @@
 import { Router } from 'express';
-import { 
-  createPost, 
-  getAllPosts, 
-  getMyPosts, 
-  getPostById, 
-  updatePost, 
-  deletePost 
+import {
+  createPost,
+  getAllPosts,
+  getMyPosts,
+  getPostById,
+  updatePost,
+  deletePost,
+  likePost,
+  unlikePost
 } from '../controllers/postsController.js';
 import { protect } from '../middleware/authMiddleware.js';
 
@@ -31,5 +33,11 @@ router.put('/:id', updatePost);
 
 // DELETE /api/posts/:id - Delete a post (Mentor only, own posts)
 router.delete('/:id', deletePost);
+
+// POST /api/posts/:id/like - Like a post
+router.post('/:id/like', likePost);
+
+// DELETE /api/posts/:id/like - Unlike a post
+router.delete('/:id/like', unlikePost);
 
 export default router;

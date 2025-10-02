@@ -6,6 +6,11 @@ import authRoutes from './routes/authRoutes.js';
 import postsRoutes from './routes/posts.js';
 import commentsRoutes from './routes/comments.js';
 import chatbotRoutes from './routes/chatbot.js';
+import courseRoutes from './routes/courses.js';
+import studyGroupRoutes from './routes/studygroups.js';
+import gamificationRoutes from './routes/gamification.js';
+import notificationRoutes from './routes/notifications.js';
+import userRoutes from './routes/users.js';
 
 dotenv.config();
 
@@ -31,10 +36,16 @@ app.get('/health', (_req, res) => {
   res.json({ status: 'ok', db: status });
 });
 
+// API Routes
 app.use('/api/auth', authRoutes);
 app.use('/api/posts', postsRoutes);
 app.use('/api/comments', commentsRoutes);
 app.use('/api/chatbot', chatbotRoutes);
+app.use('/api/courses', courseRoutes);
+app.use('/api/studygroups', studyGroupRoutes);
+app.use('/api/gamification', gamificationRoutes);
+app.use('/api/notifications', notificationRoutes);
+app.use('/api/users', userRoutes);
 
 app.use((_req, res) => res.status(404).json({ message: 'Not Found' }));
 
